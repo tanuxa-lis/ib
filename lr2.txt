@@ -1,0 +1,57 @@
+<BS>Лабораторная работа №2
+списКИ контроля доступа к файлам и папкам (ACL)
+
+1.ACL прав доступа -определяет права доступа к файлу или папке для различных пользователей
+2.ACL по умолчанию- назначается только папкам, вновь создаваемые объекты внутри такой папки наследуют ACL от родительской папки
+
+getfacl - позволяет просматривать списки контроля доступа
+setfacl - позволяет устанавливать и редактировать списки контроля доступа
+
+ПРимеры изменения прав доступа при  помощи setfacl -m:
+
+
+до изменений:
+student@alexander-VirtualBox:~$ getfacl SB008/
+# file: SB008/
+# owner: student
+# group: student
+# flags: --t
+user::rwx
+group::rwx
+other::rwx
+
+
+После изменнений: 
+student@alexander-VirtualBox:~$ setfacl -m u:tmp6:rwx SB008/
+student@alexander-VirtualBox:~$ getfacl SB008/
+# file: SB008/
+# owner: student
+# group: student
+# flags: --t
+user::rwx
+user:tmp6:rwx
+group::rwx
+mask::rwx
+other::rwx
+
+
+Добавляем права доступа для групп:
+
+setfact -m g:tempgrp:rwx SB008/
+
+
+
+ПРава доступа после пнрименения команды chmod:
+student@alexander-VirtualBox:~$ sudo chmod ugo-w SB008/
+
+student@alexander-VirtualBox:~$ getfacl SB008/
+# file: SB008/
+# owner: student
+# group: student
+# flags: --t
+user::r-x
+user:tmp6:rwx			#effective:r-x
+group::rwx			#effective:r-x
+mask::r-x
+other::r-x
+
